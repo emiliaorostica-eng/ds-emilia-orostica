@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design system · Mapa del desempleo por región</title>
+<style>
+:root{--acento:#B3261E;--texto:#1F2328;--texto-suave:#5B6168;--fondo:#FAF7F2;--superficie:#FFFFFF;--texto-sobre-acento:#FFFFFF;
+--mapa-1:#FBE9E7;--mapa-2:#F4B8B0;--mapa-3:#E27C70;--mapa-4:#B3261E;--mapa-5:#7A1712;
+--fuente-titulo:Georgia,"Times New Roman",serif;--fuente-texto:Arial,Helvetica,sans-serif;
+--tam-pequeno:12px;--tam-base:16px;--tam-subtitulo:20px;--tam-titulo:28px;--tam-cifra:56px;
+--esp-1:4px;--esp-2:8px;--esp-3:16px;--esp-4:24px;--esp-5:32px;--radio:8px;--borde:1px solid #D9D4CC;--sombra:0 1px 3px rgba(0,0,0,.12)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);font:var(--tam-base)/1.55 var(--fuente-texto)}
+a{color:var(--acento)}
+:focus-visible{outline:3px solid var(--texto);outline-offset:2px}
+header.top{padding:var(--esp-4) var(--esp-3);border-bottom:var(--borde)}
+h1,h2,h3{font-family:var(--fuente-titulo);line-height:1.2}
+h1{font-size:var(--tam-titulo);margin:0 0 var(--esp-2)}
+h2{font-size:var(--tam-titulo);margin:0 0 var(--esp-3)}
+h3{font-size:var(--tam-subtitulo);margin:var(--esp-4) 0 var(--esp-2)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 var(--esp-3)}
+nav.idx{position:sticky;top:0;background:var(--fondo);border-bottom:var(--borde);z-index:5}
+nav.idx ul{display:flex;gap:var(--esp-2);overflow-x:auto;list-style:none;margin:0;padding:var(--esp-2) var(--esp-3);max-width:1040px;margin:0 auto}
+nav.idx a{white-space:nowrap;display:block;padding:10px 12px;min-height:44px;text-decoration:none;color:var(--texto);border:var(--borde);border-radius:var(--radio);background:var(--superficie);font-size:14px}
+section{padding:var(--esp-5) 0;border-bottom:var(--borde)}
+.card{background:var(--superficie);border:var(--borde);border-radius:var(--radio);box-shadow:var(--sombra);padding:var(--esp-3);margin:var(--esp-2) 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px;border-bottom:var(--borde);vertical-align:top}
+.scroll{overflow-x:auto}
+.sw{display:inline-block;width:20px;height:20px;border:var(--borde);border-radius:4px;vertical-align:middle;margin-right:6px}
+.btn{font:inherit;min-height:44px;padding:0 var(--esp-3);border-radius:var(--radio);cursor:pointer;border:1px solid var(--acento);background:var(--acento);color:var(--texto-sobre-acento)}
+.btn:hover,.btn.h{background:#8E1E18}.btn:active,.btn.a{background:#6E1712}
+.btn.sec{background:var(--superficie);color:var(--acento)}
+.btn.sec:hover,.btn.sec.h{background:var(--mapa-1)}.btn.sec:active,.btn.sec.a{background:var(--mapa-2)}
+.btn:disabled,.btn.d{background:#E4E1DB;border-color:#C9C5BD;color:#6B6F75;cursor:not-allowed}
+.btn.f{outline:3px solid var(--texto);outline-offset:2px}
+select{font:inherit;min-height:44px;padding:0 var(--esp-2);border:var(--borde);border-radius:var(--radio);background:var(--superficie);color:var(--texto);max-width:100%}
+.cifra{font:var(--tam-cifra)/1 var(--fuente-titulo);color:var(--acento);margin:var(--esp-2) 0}
+.fuente{font-size:var(--tam-pequeno);color:var(--texto-suave)}
+.tag{display:inline-block;font-size:14px;padding:2px 8px;border:var(--borde);border-radius:var(--radio);background:var(--superficie)}
+.aviso{background:#FFF4D6;border:1px solid #D8B84A;border-radius:var(--radio);padding:var(--esp-2) var(--esp-3);font-size:14px;margin:var(--esp-2) 0}
+.ctrl{display:flex;flex-wrap:wrap;gap:var(--esp-2);margin:var(--esp-3) 0}
+.ctrl .btn[aria-pressed=true]{outline:3px solid var(--texto);outline-offset:2px}
+.screen{background:var(--fondo);border:2px solid var(--texto);border-radius:var(--radio);padding:var(--esp-3);margin:0 auto;transition:max-width .2s}
+.screen.tel{max-width:380px}.screen.esc{max-width:100%}
+.cols{display:grid;gap:var(--esp-3)}.screen.esc .cols{grid-template-columns:1fr 1fr}
+.map{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:var(--esp-2) 0}
+.map button{font:inherit;font-size:12px;min-height:44px;padding:4px;border:1px solid var(--texto-suave);border-radius:6px;cursor:pointer;color:var(--texto)}
+.map button.w{color:#fff}
+.map button[aria-pressed=true]{outline:3px solid var(--texto);outline-offset:1px;border-color:var(--texto)}
+.leg{display:flex;flex-wrap:wrap;gap:var(--esp-2);font-size:12px}
+.sk{background:#E4E1DB;border-radius:6px;height:18px;margin:8px 0}
+.vacio{border:2px dashed var(--texto-suave);border-radius:var(--radio);padding:var(--esp-2);margin:var(--esp-2) 0;font-size:14px;color:var(--texto-suave)}
+.n{padding:var(--esp-2) 0}
+img.boceto{max-width:320px;width:100%;border:var(--borde);border-radius:var(--radio)}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<h1>Design system · Mapa del desempleo por región</h1>
+<p class="fuente" style="margin:0">Emilia Oróstica · Agentes de IA para Periodismo · U. de Chile · Clase 9</p>
+<div class="aviso">Datos de ejemplo para el diseño. No son cifras del INE.</div>
+</div></header>
+<nav class="idx" aria-label="Secciones"><ul id="idx"></ul></nav>
+<main class="wrap">
+
+<section id="s1"><h2>1 · El producto</h2>
+<div class="scroll"><table><tbody>
+<tr><th>1 · Para quién</th><td>Marta, 45 años, de Concepción, perdió su empleo en agosto.</td></tr>
+<tr><th>2 · Su problema</th><td>Para saber cómo está el empleo en su región debe encontrar y leer un PDF de 30 páginas del INE.</td></tr>
+<tr><th>3 · En cinco segundos</th><td>Entiende cómo está el desempleo en su región, si subió o bajó y cómo se compara con el país.</td></tr>
+<tr><th>4 · Primera pantalla</th><td>Arriba la cabecera; en grande la cifra de la región; debajo, el mapa de las 16 regiones; al pie, la fuente.</td></tr>
+<tr><th>5 · Qué puede hacer</th><td>Elegir su región. Compararla con el país.</td></tr>
+<tr><th>6 · Qué hace el agente</th><td>Revisa al INE cada mañana y redacta. Una persona aprueba antes de publicar.</td></tr>
+<tr><th>7 · Qué no promete</th><td>No hay datos por comuna, no explica causas, no hace proyecciones.</td></tr>
+<tr><th>8 · Por qué confiar</th><td>Cada cifra tiene enlace al INE, una persona la aprueba y se declara el uso de IA.</td></tr>
+</tbody></table></div>
+<h3>Boceto de la primera pantalla</h3>
+<img class="boceto" src="boceto.png" alt="Boceto a mano de la primera pantalla en teléfono: cabecera, cifra grande, mapa y fuente" onerror="this.outerHTML='<p class=fuente>(Aquí va el boceto: agrega boceto.png dentro de la carpeta public.)</p>'">
+</section>
+
+<section id="s2"><h2>2 · Principios</h2>
+<div class="card"><h3 style="margin-top:0">1. Toda cifra va con su fuente.</h3><p><b>Por qué:</b> una cifra sin fuente no se puede verificar, y este producto promete confianza (casilla 8).<br><b>Cómo se ve:</b> bajo cada cifra aparece “INE · ENE” con la fecha y un enlace al boletín.</p></div>
+<div class="card"><h3 style="margin-top:0">2. Una sola cosa grande por pantalla.</h3><p><b>Por qué:</b> Marta debe entender en cinco segundos cómo está su región (casilla 3).<br><b>Cómo se ve:</b> la cifra de la región es lo más grande; todo lo demás es más pequeño y viene después.</p></div>
+<div class="card"><h3 style="margin-top:0">3. Solo lo que el dato permite decir.</h3><p><b>Por qué:</b> el producto no promete datos por comuna, causas ni proyecciones (casilla 7).<br><b>Cómo se ve:</b> no hay adjetivos como “alarmante” ni “histórico”, y los límites de los datos se dicen en pantalla.</p></div>
+<div class="card"><h3 style="margin-top:0">4. El lector siempre puede elegir y comparar.</h3><p><b>Por qué:</b> quien usa el producto quiere saber cómo está frente al resto de Chile y debe poder compararlo por sí misma.<br><b>Cómo se ve:</b> al tocar una región en el mapa, la tarjeta de cifra cambia a esa región y se puede volver a la propia en cualquier momento.</p></div>
+</section>
+
+<section id="s3"><h2>3 · Tokens</h2>
+<h3>Color</h3><div class="scroll"><table id="tcolor"><thead><tr><th>Token</th><th>Valor</th><th>Uso</th><th>Contraste</th></tr></thead><tbody></tbody></table></div>
+<h3>Escala del mapa</h3><div class="scroll"><table id="tmapa"><thead><tr><th>Paso</th><th>Valor</th><th>Texto encima</th><th>Contraste</th></tr></thead><tbody></tbody></table></div>
+<p class="fuente">Los pasos 1 y 2 se parecen al fondo (1,1:1 y 1,59:1): cada región del mapa lleva borde fino.</p>
+<h3>Tipografía</h3>
+<p style="font-family:var(--fuente-titulo);font-size:var(--tam-titulo);margin:0">--fuente-titulo · Georgia</p>
+<p style="margin:var(--esp-2) 0">--fuente-texto · Arial</p>
+<div class="scroll"><table><thead><tr><th>Token</th><th>Tamaño</th><th>Uso</th></tr></thead><tbody>
+<tr><td>--tam-pequeno</td><td>12 px</td><td>fuentes y notas al pie</td></tr><tr><td>--tam-base</td><td>16 px</td><td>texto normal</td></tr><tr><td>--tam-subtitulo</td><td>20 px</td><td>subtítulos</td></tr><tr><td>--tam-titulo</td><td>28 px</td><td>títulos</td></tr><tr><td>--tam-cifra</td><td>56 px</td><td>la cifra de la región</td></tr></tbody></table></div>
+<h3>Espaciado, grilla, bordes y sombras</h3>
+<p>Espaciado: 4 · 8 · 16 · 24 · 32 px (<code>--esp-1</code> a <code>--esp-5</code>).<br>Teléfono: hasta 600 px, una columna, márgenes de 16 px. Escritorio: desde 900 px, centrado, máximo 1040 px.<br>Borde: 1 px #D9D4CC. Radio: 8 px. Sombra solo en tarjetas.</p>
+</section>
+
+<section id="s4"><h2>4 · Átomos</h2>
+<div class="scroll"><table><tbody>
+<tr><th>Botón primario</th><td><button class="btn">Comparar con el país</button></td></tr>
+<tr><th>Botón secundario</th><td><button class="btn sec">Volver a mi región</button></td></tr>
+<tr><th>Enlace</th><td><a href="https://www.ine.gob.cl" target="_blank" rel="noopener">INE · Encuesta Nacional de Empleo</a></td></tr>
+<tr><th>Etiqueta de variación</th><td><span class="tag">▲ +0,4 puntos</span> <span class="tag">▼ −0,3 puntos</span> <span class="tag">Sin variación</span></td></tr>
+<tr><th>Campo selector</th><td><label>Elige tu región <select><option>Biobío</option><option>Maule</option></select></label></td></tr>
+<tr><th>Cifra</th><td><div class="cifra">8,5%</div></td></tr>
+<tr><th>Línea de fuente</th><td><span class="fuente">INE · Encuesta Nacional de Empleo · período de ejemplo</span></td></tr>
+<tr><th>Región del mapa</th><td><span id="atomo-reg"></span></td></tr>
+</tbody></table></div></section>
+
+<section id="s5"><h2>5 · Moléculas</h2>
+<h3>Tarjeta de cifra</h3><div id="m-tarjeta"></div>
+<h3>Selector de región</h3><div class="card"><label for="m-sel">Elige tu región</label><br><select id="m-sel" class="selreg"></select></div>
+<h3>Comparación región-país</h3><div id="m-comp"></div>
+<h3>Leyenda del mapa</h3><div class="card"><div class="leg" id="m-leg"></div></div>
+<h3>Sello de revisión</h3><div class="card">✔ Revisado por una persona · fecha de ejemplo</div>
+</section>
+
+<section id="s6"><h2>6 · Organismos</h2>
+<div class="scroll"><table><thead><tr><th>Organismo</th><th>Contiene</th><th>Dónde va</th></tr></thead><tbody>
+<tr><td>Cabecera</td><td>nombre del producto + selector de región</td><td>arriba</td></tr>
+<tr><td>Ficha de la región</td><td>tarjeta de cifra + comparación región-país</td><td>bajo la cabecera, en grande</td></tr>
+<tr><td>Mapa de las 16 regiones</td><td>regiones tocables + leyenda</td><td>bajo la ficha</td></tr>
+<tr><td>Tabla de regiones</td><td>16 regiones con su cifra</td><td>bajo el mapa</td></tr>
+<tr><td>Bloque de límites</td><td>lo que el producto no hace</td><td>visible en pantalla</td></tr>
+<tr><td>Pie de página</td><td>fuente + sello de revisión + declaración de IA</td><td>al final</td></tr>
+</tbody></table></div>
+<h3>Tabla de regiones (ejemplo funcional)</h3><div class="scroll"><table id="o-tabla"><thead><tr><th>Región</th><th>Tasa (ejemplo)</th></tr></thead><tbody></tbody></table></div>
+<h3>Bloque de límites</h3><div class="card">Este producto no tiene datos por comuna, no explica causas y no hace proyecciones.</div>
+</section>
+
+<section id="s7"><h2>7 · Plantillas y páginas</h2>
+<p>Elige qué ver. En la página, toca una región del mapa o usa el selector.</p>
+<div class="ctrl" role="group" aria-label="Vista">
+<button class="btn sec" data-k="modo" data-v="plantilla" aria-pressed="false">Plantilla (vacía)</button>
+<button class="btn sec" data-k="modo" data-v="pagina" aria-pressed="true">Página (con datos)</button>
+<button class="btn sec" data-k="ancho" data-v="tel" aria-pressed="true">Teléfono</button>
+<button class="btn sec" data-k="ancho" data-v="esc" aria-pressed="false">Escritorio</button></div>
+<div id="pantalla" class="screen tel" aria-live="polite"></div>
+</section>
+
+<section id="s8"><h2>8 · Estados</h2>
+<h3>Estados de la pantalla</h3>
+<div class="ctrl" id="est-tabs" role="group" aria-label="Estado"></div>
+<div class="card" id="est-vista" aria-live="polite"></div>
+<h3>Estados de cada componente</h3>
+<div class="scroll"><table><thead><tr><th>Componente</th><th>Normal</th><th>Encima</th><th>Activo</th><th>Foco</th><th>Deshabilitado</th></tr></thead><tbody>
+<tr><td>Primario</td><td><button class="btn">Botón</button></td><td><button class="btn h">Botón</button></td><td><button class="btn a">Botón</button></td><td><button class="btn f">Botón</button></td><td><button class="btn d" disabled>Botón</button></td></tr>
+<tr><td>Secundario</td><td><button class="btn sec">Botón</button></td><td><button class="btn sec h">Botón</button></td><td><button class="btn sec a">Botón</button></td><td><button class="btn sec f">Botón</button></td><td><button class="btn d" disabled>Botón</button></td></tr>
+</tbody></table></div>
+<p class="fuente">El selector y las regiones del mapa siguen las mismas reglas: borde <code>--acento</code> al pasar el cursor, contorno de 3 px con el teclado.</p>
+</section>
+
+<section id="s9"><h2>9 · Datos y voz</h2>
+<h3>Cómo se escriben las cifras</h3>
+<div class="scroll"><table><thead><tr><th>Qué</th><th>Regla</th><th>Correcto</th><th>Incorrecto</th></tr></thead><tbody>
+<tr><td>Decimales</td><td>Coma, siempre uno</td><td>8,5% · 8,0%</td><td>8.5% · 8%</td></tr>
+<tr><td>Porcentaje</td><td>Pegado al número</td><td>8,5%</td><td>8,5 %</td></tr>
+<tr><td>Variación</td><td>Con signo y en puntos</td><td>+0,4 puntos</td><td>0,4% más</td></tr>
+<tr><td>Sin cambio</td><td>Se dice</td><td>Sin variación</td><td>+0,0 puntos</td></tr>
+<tr><td>No disponible</td><td>Se declara</td><td>No consta</td><td>0% · guion</td></tr>
+<tr><td>Período</td><td>Meses extremos y año</td><td>agosto-octubre 2026</td><td>—</td></tr>
+<tr><td>Fuente</td><td>Institución · encuesta · período, con enlace</td><td>INE · Encuesta Nacional de Empleo · agosto-octubre 2026</td><td>“Fuente: INE”</td></tr>
+</tbody></table></div>
+<h3>Voz</h3>
+<p>Frases cortas y en presente. Se habla de tú. Sin adjetivos valorativos (“alarmante”, “histórico”), sin causas, sin proyecciones. Si algo falla, se dice qué pasó y qué hacer.</p>
+<h3>Textos fijos</h3>
+<div class="scroll"><table><tbody>
+<tr><td>Selector</td><td>Elige tu región</td></tr><tr><td>Botones</td><td>Comparar con el país · Volver a mi región</td></tr>
+<tr><td>Ejemplo</td><td>Datos de ejemplo para el diseño. No son cifras del INE.</td></tr><tr><td>Sello</td><td>Revisado por una persona</td></tr>
+<tr><td>Límites</td><td>Este producto no tiene datos por comuna, no explica causas y no hace proyecciones.</td></tr></tbody></table></div>
+<p class="fuente">Los rangos de la leyenda (menos de 6%, 6% a 7%…) son de ejemplo; se fijan con datos reales.</p>
+</section>
+
+<section id="s10"><h2>10 · Accesibilidad e IA</h2>
+<h3>Accesibilidad</h3>
+<ul>
+<li>Contraste de texto mínimo 4,5:1 (WCAG AA); el más bajo medido es 5,53:1.</li>
+<li>El color nunca es el único mensaje: la variación lleva flecha y texto; el mapa tiene leyenda y existe la tabla de regiones.</li>
+<li>Foco visible de 3 px en botones, selector y regiones; todo se puede usar con teclado.</li>
+<li>El mapa tiene descripción en texto; la página declara <code>lang="es"</code>.</li>
+<li>Texto base de 16 px; zonas táctiles de al menos 44 px de alto.</li>
+<li>Limitación declarada: los pasos 1 y 2 de la escala tienen poco contraste con el fondo; por eso llevan borde y hay tabla alternativa.</li></ul>
+<h3>Cómo usé la inteligencia artificial</h3>
+<p>Para construir este design system usé <b>Claude</b> (Anthropic) como asistente.</p>
+<p><b>Lo que decidí yo:</b> adapté el lienzo de 8 casillas a partir de los ejemplos de la presentación y de las sugerencias de la IA, y dibujé yo el boceto de la primera pantalla; elegí qué principios conservar y escribí el cuarto; elegí la paleta (rojo intenso sobre fondo crema); decidí qué piezas incluir en cada nivel de Atomic Design.</p>
+<p><b>Lo que hizo la IA:</b> explicó los conceptos de la presentación; propuso borradores de principios, tokens, componentes, estados y reglas de escritura; midió el contraste de los colores; redactó el código HTML.</p>
+<p><b>Cómo lo revisé:</b> leí cada sección contra mi lienzo y mi boceto y corregí lo que no coincidía. Las cifras son datos de ejemplo, no cifras reales del INE. No incluí claves ni datos personales en este archivo.</p>
+</section>
+</main>
+<footer class="wrap" style="padding:var(--esp-4) var(--esp-3)"><p class="fuente">Design system de ejemplo · datos ficticios · uso de IA declarado en la sección 10.</p></footer>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const R=[["Arica y Parinacota",8.1,.2],["Tarapacá",9.4,.4],["Antofagasta",8.8,-.3],["Atacama",9.6,.5],["Coquimbo",8.4,0],["Valparaíso",9.0,.3],["Metropolitana",8.9,.1],["O'Higgins",6.9,-.2],["Maule",8.3,.6],["Ñuble",8.7,.4],["Biobío",8.5,.4],["Araucanía",9.2,-.1],["Los Ríos",6.2,-.4],["Los Lagos",5.9,.2],["Aysén",4.8,0],["Magallanes",5.6,-.2]];
+const PAIS=8.7,f=n=>n.toFixed(1).replace(".",",");
+const paso=t=>t<6?1:t<7?2:t<8?3:t<9?4:5;
+const vr=d=>d>0?"▲ +"+f(d)+" puntos":d<0?"▼ −"+f(-d)+" puntos":"Sin variación";
+let sel=10;
+// índice
+const T=["El producto","Principios","Tokens","Átomos","Moléculas","Organismos","Plantillas y páginas","Estados","Datos y voz","Accesibilidad e IA"];
+$("#idx").innerHTML=T.map((t,i)=>`<li><a href="#s${i+1}">${i+1} · ${t}</a></li>`).join("");
+// tokens
+const C=[["--acento","#B3261E","cifra, botones, región elegida","6,12:1 sobre fondo"],["--texto","#1F2328","texto principal","14,78:1"],["--texto-suave","#5B6168","fuentes y apoyo","5,86:1"],["--fondo","#FAF7F2","fondo de pantalla","—"],["--superficie","#FFFFFF","tarjetas","—"],["--texto-sobre-acento","#FFFFFF","texto en botones rojos","6,54:1 sobre acento"]];
+$("#tcolor tbody").innerHTML=C.map(c=>`<tr><td>${c[0]}</td><td><span class="sw" style="background:${c[1]}"></span>${c[1]}</td><td>${c[2]}</td><td>${c[3]}</td></tr>`).join("");
+const M=[["#FBE9E7","oscuro","13,47:1"],["#F4B8B0","oscuro","9,28:1"],["#E27C70","oscuro","5,53:1"],["#B3261E","blanco","6,54:1"],["#7A1712","blanco","10,72:1"]];
+$("#tmapa tbody").innerHTML=M.map((m,i)=>`<tr><td>--mapa-${i+1}</td><td><span class="sw" style="background:${m[0]}"></span>${m[0]}</td><td>${m[1]}</td><td>${m[2]}</td></tr>`).join("");
+const RG=["menos de 6%","6% a 7%","7% a 8%","8% a 9%","9% o más"];
+const leyenda=()=>RG.map((r,i)=>`<span><span class="sw" style="background:var(--mapa-${i+1})"></span>${r}</span>`).join("");
+$("#m-leg").innerHTML=leyenda();
+const btnReg=(i,pressed)=>{const p=paso(R[i][1]);return `<button class="${p>3?"w":""}" style="background:var(--mapa-${p})" data-i="${i}" aria-pressed="${pressed}" aria-label="${R[i][0]}, ${f(R[i][1])}%">${R[i][0]}</button>`};
+$("#atomo-reg").innerHTML=`<span class="map" style="grid-template-columns:repeat(2,140px)">${btnReg(10,false).replace('data-i','tabindex="-1" data-i')}${btnReg(13,false).replace('data-i','tabindex="-1" data-i')}</span>`;
+const tarjeta=i=>`<div class="card"><b>${R[i][0]}</b><div class="cifra">${f(R[i][1])}%</div><span class="tag">${vr(R[i][2])}</span> <span class="fuente">respecto del año anterior (ejemplo)</span><p class="fuente" style="margin:var(--esp-2) 0 0">INE · Encuesta Nacional de Empleo · período de ejemplo · <a href="https://www.ine.gob.cl" target="_blank" rel="noopener">boletín</a></p></div>`;
+const comp=i=>{const d=R[i][1]-PAIS;return `<div class="card"><div style="display:flex;gap:var(--esp-4);flex-wrap:wrap"><div><span class="fuente">${R[i][0]}</span><div style="font:var(--tam-titulo) var(--fuente-titulo);color:var(--acento)">${f(R[i][1])}%</div></div><div><span class="fuente">País</span><div style="font:var(--tam-titulo) var(--fuente-titulo)">${f(PAIS)}%</div></div></div><p style="margin:var(--esp-2) 0 0">${d===0?"Igual al país":f(Math.abs(d))+" puntos "+(d>0?"sobre":"bajo")+" el país"}</p></div>`};
+const opts=()=>R.map((r,i)=>`<option value="${i}"${i===sel?" selected":""}>${r[0]}</option>`).join("");
+// pantalla 7
+const S={modo:"pagina",ancho:"tel"};
+function pantalla(){
+ const p=$("#pantalla");p.className="screen "+S.ancho;
+ if(S.modo==="plantilla"){
+  const v=t=>`<div class="vacio">${t}</div>`;
+  p.innerHTML=`<h3 style="margin-top:0">Cabecera</h3>${v("[nombre del producto] · [selector de región]")}<div class="cols"><div>${v("Ficha: [región] · [cifra] · [variación] · [fuente]")}${v("Comparación: [cifra región] vs [cifra país]")}</div><div>${v("Mapa de las 16 regiones + leyenda")}</div></div>${v("Bloque de límites")}${v("Tabla de regiones")}${v("Pie: fuente · sello de revisión · declaración de IA")}`;
+  return}
+ p.innerHTML=`<div class="n" style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><b style="font:var(--tam-subtitulo) var(--fuente-titulo)">Desempleo por región</b><label><span class="fuente">Elige tu región </span><select class="selreg">${opts()}</select></label></div>
+ <div class="cols"><div>${tarjeta(sel)}${comp(sel)}<button class="btn sec" id="volver">Volver a mi región</button></div>
+ <div><div class="map" role="group" aria-label="Mapa esquemático de las 16 regiones de Chile, coloreadas según la tasa de desempleo">${R.map((_,i)=>btnReg(i,i===sel)).join("")}</div><div class="leg">${leyenda()}</div></div></div>
+ <div class="card">Este producto no tiene datos por comuna, no explica causas y no hace proyecciones.</div>
+ <p class="fuente">✔ Revisado por una persona · Datos de ejemplo para el diseño. No son cifras del INE. · Uso de IA: ver sección 10.</p>`;
+}
+function todo(){
+ $("#m-tarjeta").innerHTML=tarjeta(sel);$("#m-comp").innerHTML=comp(sel);
+ $$(".selreg").forEach(s=>s.innerHTML=opts());
+ $("#o-tabla tbody").innerHTML=R.map((r,i)=>`<tr${i===sel?' style="background:var(--mapa-1)"':""}><td>${r[0]}</td><td>${f(r[1])}%</td></tr>`).join("");
+ pantalla();
+}
+document.addEventListener("change",e=>{if(e.target.classList.contains("selreg")){sel=+e.target.value;todo()}});
+document.addEventListener("click",e=>{
+ const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.i!==undefined&&!b.hasAttribute("tabindex")){sel=+b.dataset.i;todo();return}
+ if(b.id==="volver"){sel=10;todo();return}
+ if(b.dataset.k){S[b.dataset.k]=b.dataset.v;$$(`[data-k="${b.dataset.k}"]`).forEach(x=>x.setAttribute("aria-pressed",x===b));pantalla()}
+});
+// estados de pantalla
+const E={"Cargando":`<div class="sk" style="width:40%"></div><div class="sk" style="width:60%;height:56px"></div><div class="sk" style="width:30%"></div><p class="fuente">Cargando datos del INE…</p>`,
+"Sin datos":`<p>Todavía no hay datos regionales publicados. Vuelve más tarde.</p>`,
+"Error":`<p>No pudimos cargar los datos. Intenta de nuevo.</p><button class="btn">Reintentar</button>`,
+"No consta":`<b>Región de ejemplo</b><div class="cifra">No consta</div><p class="fuente">El INE no entrega esta cifra para el período. No se muestra ningún valor.</p>`,
+"Pendiente de aprobación":`<p>Este borrador espera la revisión de una persona y no se publica. El lector no lo ve.</p>`};
+$("#est-tabs").innerHTML=Object.keys(E).map((k,i)=>`<button class="btn sec" data-e="${k}" aria-pressed="${i===0}">${k}</button>`).join("");
+const ev=k=>{$("#est-vista").innerHTML=E[k];$$("[data-e]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.e===k))};
+$("#est-tabs").addEventListener("click",e=>{const b=e.target.closest("[data-e]");if(b)ev(b.dataset.e)});
+ev("Cargando");todo();
+</script>
+</body>
+</html>
